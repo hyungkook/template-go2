@@ -16,7 +16,7 @@ var client = resty.New()
 {{#if commandValue.restRepositoryInfo.getMethod}}
 func Get{{commandValue.aggregate.namePascalCase}}( {{commandValue.aggregate.keyFieldDescriptor.name}} {{#typeCheck commandValue.aggregate.keyFieldDescriptor.className}} {{/typeCheck}}) (*resty.Response, error) {
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.keyFieldDescriptor.name}} )
+	target := fmt.Sprintf("http://%s/%s/%v", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.keyFieldDescriptor.name}} )
 	resp, err := client.R().Get(target)
 	if err != nil {
 		return nil, err
@@ -38,7 +38,7 @@ func Get{{commandValue.aggregate.namePascalCase}}( {{commandValue.aggregate.keyF
 func {{commandValue.nameCamelCase}}({{commandValue.aggregate.nameCamelCase}} {{commandValue.aggregate.namePascalCase}}) (*resty.Response, error){
 	{{#MethodPost commandValue.restRepositoryInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
+	target := fmt.Sprintf("http://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
 	resp, _ := client.R().SetBody({{commandValue.aggregate.nameCamelCase}}).Post(target)
 
 	return resp, nil
@@ -46,21 +46,21 @@ func {{commandValue.nameCamelCase}}({{commandValue.aggregate.nameCamelCase}} {{c
 
 	{{#MethodGet commandValue.restRepositoryInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.nameCamelCase}} )
+	target := fmt.Sprintf("http://%s/%s/%v", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.nameCamelCase}} )
 	resp, _ := client.R().Get(target)
 	return resp, nil
 	{{/MethodGet}}
 
 	{{#MethodUpdate commandValue.restRepositoryInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
+	target := fmt.Sprintf("http://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
 	resp, _ := client.R().SetBody({{commandValue.aggregate.nameCamelCase}}).Put(target)
 	return resp, nil
 	{{/MethodUpdate}}
 
 	{{#MethodDelete commandValue.restRepositoryInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.nameCamelCase}} )
+	target := fmt.Sprintf("http://%s/%s/%v", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.nameCamelCase}} )
 	resp, _ := client.R().Delete(target)
 
 	return resp, nil
@@ -71,28 +71,28 @@ func {{commandValue.nameCamelCase}}({{commandValue.aggregate.nameCamelCase}} {{c
 func {{commandValue.namePascalCase}}({{commandValue.aggregate.nameCamelCase}} {{commandValue.aggregate.namePascalCase}}) (*resty.Response, error){
 	{{#MethodPost commandValue.controllerInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
+	target := fmt.Sprintf("http://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
 	resp, _ := client.R().SetBody({{commandValue.aggregate.nameCamelCase}}).Post(target)
 
 	return resp, nil
 	{{/MethodPost}}
 	{{#MethodGet commandValue.controllerInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s/%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" ,{{commandValue.aggregate.nameCamelCase}}.{{commandValue.aggregate.keyFieldDescriptor.namePascalCase}} ,{{commandValue.controllerInfo.apiPath}} )
+	target := fmt.Sprintf("http://%s/%s/%v/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" ,{{commandValue.aggregate.nameCamelCase}}.{{commandValue.aggregate.keyFieldDescriptor.namePascalCase}} ,{{commandValue.controllerInfo.apiPath}} )
 	resp, _ := client.R().Get(target)
 
 	return resp, nil
 	{{/MethodGet}}
 	{{#MethodUpdate commandValue.controllerInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
+	target := fmt.Sprintf("http://%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" )
 	resp, _ := client.R().SetBody({{commandValue.aggregate.nameCamelCase}}).Put(target)
 
 	return resp, nil
 	{{/MethodUpdate}}
 	{{#MethodDelete commandValue.controllerInfo.method}}
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s/%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.nameCamelCase}}.{{commandValue.aggregate.keyFieldDescriptor.namePascalCase}} ,{{commandValue.controllerInfo.apiPath}})
+	target := fmt.Sprintf("http://%s/%s/%v/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.nameCamelCase}}.{{commandValue.aggregate.keyFieldDescriptor.namePascalCase}} ,{{commandValue.controllerInfo.apiPath}})
 	resp, _ := client.R().Delete(target)
 
 	return resp, nil
@@ -102,7 +102,7 @@ func {{commandValue.namePascalCase}}({{commandValue.aggregate.nameCamelCase}} {{
 {{else}}
 func Get{{commandValue.aggregate.namePascalCase}}( {{commandValue.aggregate.keyFieldDescriptor.name}} {{#typeCheck commandValue.aggregate.keyFieldDescriptor.className}} {{/typeCheck}}) (*resty.Response, error){
 	options := config.Reader(config.GetMode())
-	target := fmt.Sprintf("https://%s/%s/%s", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.keyFieldDescriptor.name}} )
+	target := fmt.Sprintf("http://%s/%s/%v", options["api_url_{{commandValue.boundedContext.name}}"], "{{commandValue.aggregate.namePlural}}" , {{commandValue.aggregate.keyFieldDescriptor.name}} )
 	resp, err := client.R().Get(target)
 	if err != nil {
 		return nil, err

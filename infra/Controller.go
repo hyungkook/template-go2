@@ -27,7 +27,7 @@ func {{namePascalCase}}(c echo.Context) error  {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, err)
 		} else {
-			return c.JSON(http.StatusInternalServerError, err)
+			return c.JSON(http.StatusInternalServerError, err.Error())
 		}
 	}
     // TODO 로직

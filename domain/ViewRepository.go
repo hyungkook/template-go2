@@ -62,7 +62,7 @@ func (self *{{namePascalCase}}) FindById(c echo.Context) error{
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, err)
 		} else {
-			return c.JSON(http.StatusInternalServerError, err)
+			return c.JSON(http.StatusInternalServerError, err.Error())
 		}
 	}
 
@@ -90,15 +90,15 @@ func (self *{{namePascalCase}}) Persist(c echo.Context) error{
 	c.Bind(&params)
 	err = ObjectMapping(self, params)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	err = self.onPrePersist()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	err = repository.save(self)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	err = self.onPostPersist()
 
@@ -117,7 +117,7 @@ func (self *{{namePascalCase}}) Persist(c echo.Context) error{
 	jsonBytes, _ := encoder.ToJSON(embeddedActor)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	} else {
 		return c.JSONBlob(http.StatusOK, jsonBytes)
 	}
@@ -131,15 +131,15 @@ func (self *{{namePascalCase}}) Put(c echo.Context) error{
 	c.Bind(&params)
 	err := self.onPreUpdate()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	self, err = repository.Update(id, params)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	err = self.onPostUpdate()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	} else {
 		href := fmt.Sprintf("%s%s", c.Request().Host, c.Request().URL)
 		selfLink, _ := hal.NewLinkObject(href)
@@ -166,20 +166,20 @@ func (self *{{namePascalCase}}) Remove(c echo.Context) error{
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, err)
 		} else {
-			return c.JSON(http.StatusInternalServerError, err)
+			return c.JSON(http.StatusInternalServerError, err.Error())
 		}
 	}
 	err = self.onPreRemove()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	err = repository.Delete(self)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	err = self.onPostRemove()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, err)
 }

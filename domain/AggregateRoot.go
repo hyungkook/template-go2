@@ -100,7 +100,7 @@ func (self *{{../namePascalCase}}) {{namePascalCase}}({{#if (has fieldDescriptor
 func {{../namePascalCase}}({{eventValue.nameCamelCase}} *{{eventValue.namePascalCase}}){
 	/** Example 1:  new item
 	{{../../nameCamelCase}} := &{{../../namePascalCase}}{}
-	{{../../nameCamelCase}}repository.save({{../../nameCamelCase}})
+	{{../../nameCamelCase}}Repository.save({{../../nameCamelCase}})
 
 	{{#../relationExampleEventInfo}}
 	{{eventValue.nameCamelCase}} := New{{eventValue.namePascalCase}}()
@@ -110,8 +110,8 @@ func {{../namePascalCase}}({{eventValue.nameCamelCase}} *{{eventValue.namePascal
 	*/
 
 	/** Example 2:  finding and process
-	id, _ := strconv.ParseInt({{eventValue.nameCamelCase}}.id, 10, 64)
-	{{../../nameCamelCase}}, err := {{../../nameCamelCase}}repository().FindById(int(id))
+	id, _ := strconv.ParseInt({{eventValue.namePascalCase}}.id, 10, 64)
+	{{../../nameCamelCase}}, err := {{../../nameCamelCase}}Repository.FindById(int(id))
 	if err != nil {
 
 	}
