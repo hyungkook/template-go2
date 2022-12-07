@@ -92,15 +92,10 @@ func (self *{{namePascalCase}}) Persist(c echo.Context) error{
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	err = self.onPrePersist()
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
 	err = repository.save(self)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	err = self.onPostPersist()
 
 	rootHref := fmt.Sprintf("%s%s", c.Request().Host, c.Path())
 	href := fmt.Sprintf("%s/%d", rootHref, self.Id)
@@ -129,15 +124,7 @@ func (self *{{namePascalCase}}) Put(c echo.Context) error{
 	params := make(map[string]string)
 
 	c.Bind(&params)
-	err := self.onPreUpdate()
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-	self, err = repository.Update(id, params)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-	err = self.onPostUpdate()
+	self, err := repository.Update(id, params)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	} else {
@@ -169,15 +156,7 @@ func (self *{{namePascalCase}}) Remove(c echo.Context) error{
 			return c.JSON(http.StatusInternalServerError, err.Error())
 		}
 	}
-	err = self.onPreRemove()
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
 	err = repository.Delete(self)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-	err = self.onPostRemove()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
