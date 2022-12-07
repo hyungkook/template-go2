@@ -18,7 +18,7 @@ func whenever{{eventValue.namePascalCase}}_{{../namePascalCase}}(data map[string
 	event := New{{eventValue.namePascalCase}}()
 	mapstructure.Decode(data,&event)
 
-	{{../namePascalCase}}(event);
+	{{../namePascalCase}}(event)
 }
 
 {{/relationEventInfo}}

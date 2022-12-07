@@ -21,7 +21,7 @@ func when{{when.namePascalCase}}_then_{{operation}}_{{_index}} (inputEvent map[s
 
 	{{../nameCamelCase}} := &{{../namePascalCase}}{}
 	{{#fieldMapping}}
-	{{../../nameCamelCase}}.{{viewField.namePascalCase}} = {{../when.nameCamelCase}}.{{eventField.namePascalCase}}
+	{{../../nameCamelCase}}.{{viewField.namePascalCase}} = {{#typeCasting viewField ../when.nameCamelCase eventField}}{{/typeCasting}}
 	{{/fieldMapping}}
 
 	// view 레파지 토리에 save
@@ -51,7 +51,7 @@ func when{{when.namePascalCase}}_then_{{operation}}_{{_index}} (inputEvent map[s
 	}
 	for _, viewEntity := range {{../../nameCamelCase}}s {
 		{{#../fieldMapping}}
-		viewEntity.{{viewField.namePascalCase}} = {{../../when.nameCamelCase}}.{{eventField.namePascalCase}}
+		viewEntity.{{viewField.namePascalCase}} = {{#typeCasting viewField ../../when.nameCamelCase eventField}}{{/typeCasting}}
 		{{/../fieldMapping}}
 		err1 := repository.db.Updates(viewEntity).Error
 		if err1 != nil {
@@ -89,3 +89,22 @@ func when{{when.namePascalCase}}_then_{{operation}}_{{_index}} (inputEvent map[s
 {{/deleteRules}}
 
 //>>> EDA / CQRS
+<function>
+window.$HandleBars.registerHelper('typeCasting', function (viewField, eventName, eventField) {
+    try {
+        var text = '';
+        if(eventField.className == true && eventField.value != undefined) {
+            if(typeof(eventField.value) == 'string') {
+                text += eventField.value
+            } else {
+                text += eventName + '.' + eventField.namePascalCase
+            }
+        } else {
+			text += eventName + '.' + eventField.namePascalCase;
+        }
+        return text;
+    } catch (e) {
+        console.log(e);
+    }
+});
+</function>
